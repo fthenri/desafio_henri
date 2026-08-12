@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS addresses CASCADE;
 CREATE TABLE addresses (
     id INTEGER,
     customer_id INTEGER,
@@ -13,12 +14,14 @@ CREATE TABLE addresses (
     is_primary BOOLEAN
 );
 
+DROP TABLE IF EXISTS attributes CASCADE;
 CREATE TABLE attributes (
     id INTEGER,
     name VARCHAR,
     data_type VARCHAR
 );
 
+DROP TABLE IF EXISTS brands CASCADE;
 CREATE TABLE brands (
     id INTEGER,
     name VARCHAR,
@@ -28,6 +31,7 @@ CREATE TABLE brands (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS categories CASCADE;
 CREATE TABLE categories (
     id INTEGER,
     name VARCHAR,
@@ -38,24 +42,26 @@ CREATE TABLE categories (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS customers CASCADE;
 CREATE TABLE customers (
     id INTEGER,
     person_type VARCHAR,
     legal_name VARCHAR,
     trade_name VARCHAR,
-    tax_id INTEGER,
+    tax_id VARCHAR,
     state_registration VARCHAR,
     email VARCHAR,
-    phone INTEGER,
+    phone VARCHAR,
     is_active BOOLEAN,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS employees CASCADE;
 CREATE TABLE employees (
     id INTEGER,
     full_name VARCHAR,
-    cpf INTEGER,
+    cpf BIGINT,
     email VARCHAR,
     role VARCHAR,
     primary_location_id INTEGER,
@@ -66,12 +72,13 @@ CREATE TABLE employees (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS fiscal_invoices CASCADE;
 CREATE TABLE fiscal_invoices (
     id INTEGER,
     order_id INTEGER,
     nfe_number VARCHAR,
-    nfe_access_key INTEGER,
-    series INTEGER,
+    nfe_access_key VARCHAR,
+    series VARCHAR,
     issued_at TIMESTAMP,
     status VARCHAR,
     total_amount NUMERIC,
@@ -80,6 +87,7 @@ CREATE TABLE fiscal_invoices (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS goods_receipts CASCADE;
 CREATE TABLE goods_receipts (
     id INTEGER,
     purchase_order_id INTEGER,
@@ -89,6 +97,7 @@ CREATE TABLE goods_receipts (
     created_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS goods_receipt_items CASCADE;
 CREATE TABLE goods_receipt_items (
     id INTEGER,
     goods_receipt_id INTEGER,
@@ -96,6 +105,7 @@ CREATE TABLE goods_receipt_items (
     quantity_received NUMERIC
 );
 
+DROP TABLE IF EXISTS locations CASCADE;
 CREATE TABLE locations (
     id INTEGER,
     name VARCHAR,
@@ -113,6 +123,7 @@ CREATE TABLE locations (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS orders CASCADE;
 CREATE TABLE orders (
     id INTEGER,
     order_number VARCHAR,
@@ -129,6 +140,7 @@ CREATE TABLE orders (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS order_items CASCADE;
 CREATE TABLE order_items (
     id INTEGER,
     order_id INTEGER,
@@ -140,6 +152,7 @@ CREATE TABLE order_items (
     line_total NUMERIC
 );
 
+DROP TABLE IF EXISTS payments CASCADE;
 CREATE TABLE payments (
     id INTEGER,
     order_id INTEGER,
@@ -152,6 +165,7 @@ CREATE TABLE payments (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products (
     id INTEGER,
     name VARCHAR,
@@ -165,6 +179,7 @@ CREATE TABLE products (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS product_suppliers CASCADE;
 CREATE TABLE product_suppliers (
     product_variant_id INTEGER,
     supplier_id INTEGER,
@@ -176,11 +191,12 @@ CREATE TABLE product_suppliers (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS product_variants CASCADE;
 CREATE TABLE product_variants (
     id INTEGER,
     product_id INTEGER,
     sku VARCHAR,
-    barcode_ean INTEGER,
+    barcode_ean VARCHAR,
     sale_price NUMERIC,
     cost_price NUMERIC,
     weight_kg NUMERIC,
@@ -191,6 +207,7 @@ CREATE TABLE product_variants (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS purchase_orders CASCADE;
 CREATE TABLE purchase_orders (
     id INTEGER,
     po_number VARCHAR,
@@ -207,6 +224,7 @@ CREATE TABLE purchase_orders (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS purchase_order_items CASCADE;
 CREATE TABLE purchase_order_items (
     id INTEGER,
     purchase_order_id INTEGER,
@@ -216,6 +234,7 @@ CREATE TABLE purchase_order_items (
     line_total NUMERIC
 );
 
+DROP TABLE IF EXISTS returns CASCADE;
 CREATE TABLE returns (
     id INTEGER,
     return_number VARCHAR,
@@ -229,6 +248,7 @@ CREATE TABLE returns (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS return_items CASCADE;
 CREATE TABLE return_items (
     id INTEGER,
     return_id INTEGER,
@@ -239,6 +259,7 @@ CREATE TABLE return_items (
     unit_refund_amount NUMERIC
 );
 
+DROP TABLE IF EXISTS stock_levels CASCADE;
 CREATE TABLE stock_levels (
     product_variant_id INTEGER,
     location_id INTEGER,
@@ -247,6 +268,7 @@ CREATE TABLE stock_levels (
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS stock_movements CASCADE;
 CREATE TABLE stock_movements (
     id INTEGER,
     product_variant_id INTEGER,
@@ -254,13 +276,14 @@ CREATE TABLE stock_movements (
     movement_type VARCHAR,
     quantity NUMERIC,
     reference_table VARCHAR,
-    reference_id VARCHAR,
-    employee_id VARCHAR,
+    reference_id INTEGER,
+    employee_id INTEGER,
     notes VARCHAR,
     occurred_at TIMESTAMP,
     created_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS suppliers CASCADE;
 CREATE TABLE suppliers (
     id INTEGER,
     legal_name VARCHAR,
@@ -269,15 +292,17 @@ CREATE TABLE suppliers (
     tax_id VARCHAR,
     tax_id_type VARCHAR,
     email VARCHAR,
-    phone INTEGER,
+    phone VARCHAR,
     contact_name VARCHAR,
     is_active BOOLEAN,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
 );
 
+DROP TABLE IF EXISTS variant_attribute_values CASCADE;
 CREATE TABLE variant_attribute_values (
     product_variant_id INTEGER,
     attribute_id INTEGER,
     value VARCHAR
 );
+

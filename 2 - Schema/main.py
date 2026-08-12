@@ -13,9 +13,15 @@ def infer_type(value):
     if val_lower in ('true', 'false'):
         return 'BOOLEAN'
     
+    if value.startswith('0') and len(value) > 1 and value.isdigit(): 
+        return 'VARCHAR'
+    
     try:
-        int(value)
-        return 'INTEGER'
+        val_int = int(value)
+        if -2147483648 <= val_int <= 2147483647:
+            return 'INTEGER'
+        else:
+            return 'BIGINT' 
     except ValueError:
         pass
         
@@ -43,9 +49,14 @@ def resolve_type(type1, type2):
     if type2 is None: return type1
     if type1 == type2: return type1
     
-    if {type1, type2} == {'INTEGER', 'NUMERIC'}: 
+    types = {type1, type2}
+    if 'VARCHAR' in types:
+        return 'VARCHAR'
+    if types == {'INTEGER', 'BIGINT'}: 
+        return 'BIGINT'
+    if 'NUMERIC' in types and types.issubset({'INTEGER', 'BIGINT', 'NUMERIC'}):
         return 'NUMERIC'
-    if {type1, type2} == {'DATE', 'TIMESTAMP'}: 
+    if types == {'DATE', 'TIMESTAMP'}: 
         return 'TIMESTAMP'
     
     return 'VARCHAR'
@@ -69,12 +80,13 @@ def generate_schema():
                 column_types = {header: None for header in headers}
                 
                 for i, row in enumerate(reader):
-                    if i >= 100: 
-                        break
+                    # if i >= 100: 
+                    #     break
                     for header, value in zip(headers, row):
                         inferred = infer_type(value)
                         column_types[header] = resolve_type(column_types[header], inferred)
                 
+            sql_file.write(f"DROP TABLE IF EXISTS {table_name} CASCADE;\n")
             sql_file.write(f"CREATE TABLE {table_name} (\n")
             col_defs = []
             for header in headers:
