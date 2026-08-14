@@ -1,3 +1,7 @@
+4.1 - script.sql contendo a parte 1 e 2
+
+4.2 -
+
 1
 Conectei as chaves da seguinte forma: 
 orders (id) -> order_items (order_id) -> product_variants (id através de product_variant_id) -> products (id através de product_id) -> categories (id através de category_id). Depois, eu agrupei pelo ID e nome da categoria e somei os itens comprados com SUM(quantity)
