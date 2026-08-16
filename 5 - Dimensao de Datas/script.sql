@@ -3,6 +3,7 @@ WITH parametros_datas AS (
         MIN(DATE(created_at)) AS data_inicio,
         MAX(DATE(created_at)) AS data_fim
     FROM orders
+    WHERE channel = 'pos'
 ),
 calendario AS (
     SELECT generate_series(
